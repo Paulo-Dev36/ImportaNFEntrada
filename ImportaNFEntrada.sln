@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32922.545
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImportaNFEntrada", "ImportaNFEntrada\ImportaNFEntrada.csproj", "{D980FD6D-BDE0-4366-A941-64DB54A429EA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImportaNFEntrada", "ImportaNFEntrada\ImportaNFEntrada.csproj", "{D980FD6D-BDE0-4366-A941-64DB54A429EA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConexoesBanco", "..\WLContab\ConexoesBanco\ConexoesBanco.csproj", "{9DC0FFEC-AEA4-4342-BA1E-C9030D1F374B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConexoesBanco", "ConexoesBanco\ConexoesBanco.csproj", "{9DC0FFEC-AEA4-4342-BA1E-C9030D1F374B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -15,7 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\WLContab\ConexoesBanco\ConexoesBanco.csproj" />
+    <ProjectReference Include="..\ConexoesBanco\ConexoesBanco.csproj" />
   </ItemGroup>
 
   <ItemGroup>

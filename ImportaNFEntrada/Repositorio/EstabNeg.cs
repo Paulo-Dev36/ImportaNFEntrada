@@ -1,5 +1,4 @@
 ﻿using FirebirdSql.Data.FirebirdClient;
-using Npgsql;
 using System.Data;
 using WLContab;
 

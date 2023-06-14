@@ -135,17 +135,20 @@ namespace ImportaNFEntrada
                 List<string> listaChaveNFe = nfEntradaNeg.
                     GetListaNotasEntradaEmpresaNovoCTE(agendamento.CodigoEmpresa, agendamento.CodigoEstab);
 
-                foreach (string nota in listaChaveNFe)
+                if (listaNotasXML is not null)
                 {
-                    if (listaNotasXML.ContainsKey(nota))
+                    foreach (string nota in listaChaveNFe)
                     {
-                        listaNotasXML.Remove(nota);
+                        if (listaNotasXML.ContainsKey(nota))
+                        {
+                            listaNotasXML.Remove(nota);
+                        }
                     }
                 }
 
                 // Insere as notas no banco
 
-                if (listaNotasXML.Count > 0)
+                if (listaNotasXML is not null)
                 {
                     nfEntradaNeg.InserirNotas(listaNotasXML);
                 }

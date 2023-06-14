@@ -22,12 +22,12 @@ namespace ImportaNFEntrada
             foreach (Agendamento agendamento in listaAgendamentos)
             {
                 principalNeg.ProcessarNotasEmpresas(agendamento, dataInicial);
-                principalNeg.ProcessarCTEsEmpresas(agendamento, dataFinal);
+                principalNeg.ProcessarCTEsEmpresas(agendamento, dataInicial);
             }
 
             // MÊS ATUAL
 
-            Console.WriteLine("INICIANDO PROCESSAMENTO DE AGENDAMENTOS MÊS ATUAL");
+            Console.WriteLine("\nINICIANDO PROCESSAMENTO DE AGENDAMENTOS MÊS ATUAL");
             string dataInicialNova = dataUtils.GetYear() + "-" + principalNeg.LeftPad(dataUtils.GetMesDataCorretoNumero(DateTime.Now), 2, '0') + "-01";
 
             foreach (Agendamento agendamento in listaAgendamentos)

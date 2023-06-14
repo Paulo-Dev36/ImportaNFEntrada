@@ -9,11 +9,15 @@ namespace ImportaNFEntrada.Utils
         {
             try
             {
-                List<FileInfo> arquivosCompactados = arquivosUtils.GetListaZipFiles(path);
+                if (!Directory.Exists(path + "\\XML_IMPORTAR"))
+                {
+                    Directory.CreateDirectory(path + "\\XML_IMPORTAR");
+                }
+                    List<FileInfo> arquivosCompactados = arquivosUtils.GetListaZipFiles(path + "\\XML_IMPORTAR");
 
                 foreach (FileInfo file in arquivosCompactados)
                 {
-                    Unzip(file, path);
+                    Unzip(file, path + "\\XML_IMPORTAR");
                     MoverArquivos(file, new DirectoryInfo(Path.Combine(path, "ZIP")));
                 }
 
@@ -45,6 +49,28 @@ namespace ImportaNFEntrada.Utils
                 Console.WriteLine(e.StackTrace);
                 return false;
             }
+        }
+
+        public bool MoverXml(FileInfo arquivo, string caminhoDestino)
+        {
+            try
+            {
+
+                if (!Directory.Exists(caminhoDestino))
+                {
+                    Directory.CreateDirectory(caminhoDestino);
+                }
+                // Move o arquivo
+                File.Move(arquivo.FullName, caminhoDestino+'\\'+arquivo.Name);
+
+                //Console.WriteLine("Arquivo movido com sucesso.");
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Ocorreu um erro ao mover o arquivo: " + ex.Message);
+            }
+            return false;
         }
 
         public static void Unzip(FileInfo zipFile, string destinationFolderPath)

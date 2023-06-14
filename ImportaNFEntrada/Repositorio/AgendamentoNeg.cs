@@ -12,7 +12,7 @@ namespace ImportaNFEntrada.Repositorio
         public List<Agendamento> GetListaAgendamentosPeriodo(string datainicial, string datafinal)
         {
             string query = "SELECT DISTINCT a.codigoEmpresa, a.codigoEstab FROM Agendamento a WHERE a.datainicial >= '"
-                    + datainicial + "' and a.datafinal <= '" + datafinal + "'";
+                    + datainicial + "' and a.datafinal <= '" + datafinal + "' ORDER BY 1, 2";
 
 
             NpgsqlConnection connect = conexaoPG.ConexaoBanco();

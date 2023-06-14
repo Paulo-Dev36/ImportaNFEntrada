@@ -8,6 +8,7 @@ namespace ImportaNFEntrada
 {
     public class ImportaNFEntradaNeg
     {
+        ZipUtils zipUtils = new();
         protected string[] extensions = new string[] { "xml", "XML" };
 
         string padraoChaveNfe = @"<chNFe>(.*?)<\/chNFe>";
@@ -30,7 +31,7 @@ namespace ImportaNFEntrada
             ArquivosUtils arquivosUtils = new();
             try
             {
-                DirectoryInfo directory = new DirectoryInfo(path);
+                DirectoryInfo directory = new DirectoryInfo(path + "\\XML_IMPORTAR");
                 listaXML = directory.GetFiles().Where(x => x.Extension.Contains("xml")).ToList();
                 listaXML.AddRange(directory.GetFiles().Where(x => x.Extension.Contains("XML")).ToList());
                 Console.WriteLine($"QUANTIDADE DE NOTAS A CARREGAR: {listaXML.Count()}");
@@ -67,6 +68,10 @@ namespace ImportaNFEntrada
                         lista.Add(nFEntrada.ChaveNf, nFEntrada);
 
                         Console.WriteLine($"NOTA PROCESSADA: {nFEntrada.ChaveNf}");
+
+                        zipUtils.MoverXml(xml, path + "\\XML_SUCESSO");
+
+                        File.Delete(xml.FullName);
                     }
                     catch (Exception ex)
                     {

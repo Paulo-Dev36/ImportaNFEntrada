@@ -22,6 +22,7 @@ namespace ImportaNFEntrada
             foreach (Agendamento agendamento in listaAgendamentos)
             {
                 principalNeg.ProcessarNotasEmpresas(agendamento, dataInicial);
+                principalNeg.ProcessarCTEsEmpresas(agendamento, dataFinal);
             }
                 
         }

@@ -21,12 +21,11 @@ namespace ImportaNFEntrada
             {
                 data = data.Substring(5, 2) + "-" + data.Substring(0, 4);
 
-                Console.WriteLine($"\nINICIANDO PROCESSAMENTO EMPRESA {agendamento.CodigoEmpresa} - {agendamento.CodigoEstab}");
+                Console.WriteLine($"\nINICIANDO PROCESSAMENTO NOTAS EMPRESA {agendamento.CodigoEmpresa} - {agendamento.CodigoEstab}");
 
                 Console.WriteLine("DESCOMPACTANDO AS NOTAS...");
 
                 zipUtilz.DescompactarArquivosEmpresa(GetPathEmpresa(agendamento, data));
-                string teste = GetPathEmpresa(agendamento, data);
 
                 Dictionary<string, NFEntrada> listaNotasXML = importaNFEntradaNeg
                                     .CarregarNotas(GetPathEmpresa(agendamento, data),
@@ -99,6 +98,16 @@ namespace ImportaNFEntrada
                 "ENTRADA");
             return pathEmpresa;
         }
+        public string GetPathEmpresaCTE(Agendamento agendamento, string data)
+        {
+            string pathEmpresa = Path.Combine(local,
+                LeftPad(agendamento.CodigoEmpresa.ToString(), 3, '0'),
+                agendamento.CodigoEstab.ToString(),
+                data,
+                "CTE",
+                "ENTRADA");
+            return pathEmpresa;
+        }
 
         public string LeftPad(string input, int totalWidth, char paddingChar)
         {
@@ -107,5 +116,29 @@ namespace ImportaNFEntrada
 
             return new string(paddingChar, totalWidth - input.Length) + input;
         }
+
+        public bool ProcessarCTEsEmpresas(Agendamento agendamento, string data)
+        {
+            try
+            {
+                data = data.Substring(5, 2) + "-" + data.Substring(0, 4);
+
+                Console.WriteLine($"\nINICIANDO PROCESSAMENTO CTEs EMPRESA {agendamento.CodigoEmpresa} - {agendamento.CodigoEstab}");
+
+                Console.WriteLine("DESCOMPACTANDO OS CTEs...");
+
+                zipUtilz.DescompactarArquivosEmpresa(GetPathEmpresaCTE(agendamento, data));
+
+                Dictionary<string, NFEntrada> listaNotasXML = importaNFEntradaNeg
+                                    .CarregarCTEs(GetPathEmpresa(agendamento, data),
+                                        agendamento.CodigoEmpresa, agendamento.CodigoEstab);
+
+                return true;
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex);
+            }
+            return false;
     }
 }

@@ -71,7 +71,7 @@ namespace ImportaNFEntrada
                         Console.WriteLine("VERIFICANDO SE A NOTA ESTÁ CANCELADA...");
 
                         NFEntrada nFEntrada = GetNotaCancelada(xml, codigoempresa, codigoestab);
-                        if(nFEntrada is not null)
+                        if (nFEntrada is not null)
                         {
                             Console.WriteLine($"NOTA CANCELADA: {nFEntrada.ChaveNf}");
                             lista.Add(nFEntrada.ChaveNf, nFEntrada);
@@ -83,7 +83,7 @@ namespace ImportaNFEntrada
 
                 return lista;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Console.WriteLine($"ERRO AO PROCESSAR NOTAS: {ex.Message}");
                 return null;
@@ -137,5 +137,29 @@ namespace ImportaNFEntrada
             }
             return null;
         }
-    }
+
+        public Dictionary<string, NFEntrada> CarregarCTEs(string path, int codigoempresa, int codigoestab)
+        {
+            Console.WriteLine("\n");
+            Dictionary<string, NFEntrada> lista = new Dictionary<string, NFEntrada>();
+            List<FileInfo> listaXML = new();
+
+            try
+            {
+                DirectoryInfo directory = new DirectoryInfo(path);
+                listaXML = directory.GetFiles().Where(x => x.Extension.Contains("xml")).ToList();
+                listaXML.AddRange(directory.GetFiles().Where(x => x.Extension.Contains("XML")).ToList());
+
+                Console.WriteLine("QUANTIDADE DE CTEs A CARREGAR: " + listaXML.Count);
+
+
+                //return true;
+            }
+            catch
+            {
+
+            }
+            return null;
+            }
+    } 
 }

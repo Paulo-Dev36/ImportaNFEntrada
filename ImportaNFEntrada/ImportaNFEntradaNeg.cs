@@ -20,6 +20,9 @@ namespace ImportaNFEntrada
         string padraoCnpjDestNfe = @"<dest><CNPJ>(.*?)<\/CNPJ>";
         string padraoCpfNfe = @"<emit><CPF>(.*?)<\/CPF>";
 
+        string padraoChaveNfeCTE = @"<chCTe>(.*?)<\/chCTe>";
+        string padraoNumeroNfeCTE = @"<nCT>(.*?)<\/nCT>";
+
         public Dictionary<string, NFEntrada> CarregarNotas(string path, int codigoempresa, int codigoestab)
         {
             Dictionary<string, NFEntrada> lista = new Dictionary<string, NFEntrada>();
@@ -148,15 +151,51 @@ namespace ImportaNFEntrada
                 DirectoryInfo directory = new DirectoryInfo(path);
                 listaXML = directory.GetFiles().Where(x => x.Extension.Contains("xml")).ToList();
                 listaXML.AddRange(directory.GetFiles().Where(x => x.Extension.Contains("XML")).ToList());
-
                 Console.WriteLine("QUANTIDADE DE CTEs A CARREGAR: " + listaXML.Count);
 
+                foreach (FileInfo xml in listaXML)
+                {
+                    try
+                    {
+                        byte[] encoded = File.ReadAllBytes(xml.FullName);
+                        string x = Encoding.UTF8.GetString(encoded);
 
-                //return true;
+                        NFEntrada nFEntrada = new NFEntrada();
+
+
+                        nFEntrada.ChaveNf = Regex.Match(x, padraoChaveNfeCTE).Groups[1].Value;
+                        nFEntrada.CodigoEmpresa = codigoempresa;
+                        nFEntrada.CodigoEstab = codigoestab;
+                        nFEntrada.Numeronf = Regex.Match(x, padraoNumeroNfeCTE).Groups[1].Value;
+                        nFEntrada.SerieNf = Regex.Match(x, padraoSerieNfe).Groups[1].Value;
+                        nFEntrada.EspecielNf = Regex.Match(x, padraoModeloNfe).Groups[1].Value.Equals("57") ? "CTE" : "OTR";
+                        string periodo = Regex.Match(x, padraoPeriodoNfe).Groups[1].Value.Substring(0, 10);
+                        nFEntrada.Periodo = Convert.ToDateTime(periodo);
+
+                        lista.Add(nFEntrada.ChaveNf, nFEntrada);
+
+                        Console.WriteLine($"CTE processada: {nFEntrada.ChaveNf}");
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"ERRO XML: {ex.Message}");
+                        Console.WriteLine("vERIFICANDO SE A NOTA ESTÁ CANCELADA...");
+
+                        NFEntrada nFEntrada = GetNotaCancelada(xml, codigoempresa, codigoestab);
+
+                        if(nFEntrada is not null)
+                        {
+                            Console.WriteLine($"NOTA CANCELADA: {nFEntrada.ChaveNf}");
+                            lista.Add(nFEntrada.ChaveNf, nFEntrada);
+                        }
+                        Console.WriteLine("------------------------");
+                    }
+                    return lista;                    
+                }
             }
-            catch
+            catch (Exception ex)
             {
-
+                Console.WriteLine($"Erro ao processar notas: {ex}");
             }
             return null;
             }

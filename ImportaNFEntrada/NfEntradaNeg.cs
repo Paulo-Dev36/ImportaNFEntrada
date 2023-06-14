@@ -47,6 +47,42 @@ namespace ImportaNFEntrada
             }
         }
 
+        public List<string> GetListaNotasEntradaEmpresaNovoCTE(int codigoempresa, int codigoestab)
+        {
+            string query = $"SELECT n.chavenf FROM Nfentrada n WHERE n.codigoempresa = {codigoempresa} AND n.codigoestab = {codigoestab} AND n.especienf = 'CTE' ";
+
+            NpgsqlConnection connect = conexaoPGAutenticacao.ConexaoBanco();
+
+            try
+            {
+                connect.Open();
+                var cmd = connect.CreateCommand();
+                cmd.CommandText = query;
+
+                var cmdDt = new NpgsqlDataAdapter(cmd);
+                var dataTable = new DataTable();
+                cmdDt.Fill(dataTable);
+
+                List<string> chavesNFe = new List<string>();
+
+                for (int i = 0; i < dataTable.Rows.Count; i++)
+                {
+                    chavesNFe.Add(dataTable.Rows[i][0].ToString());
+                }
+
+                return chavesNFe;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                return null;
+            }
+            finally
+            {
+                connect.Close();
+            }
+        }
+
         public bool InserirNotas(Dictionary<string, NFEntrada> listaNotasXML)
         {
             try

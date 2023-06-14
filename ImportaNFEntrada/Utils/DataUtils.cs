@@ -46,5 +46,17 @@
             string data = date.ToString(mask);
             return data;
         }
+
+        public string GetYear()
+        {
+            int year = DateTime.Now.Year;
+            return year.ToString();
+        }
+
+        public string GetMesDataCorretoNumero(DateTime date)
+        {
+            int mes = date.Month;
+            return mes.ToString();
+        }
     }
 }

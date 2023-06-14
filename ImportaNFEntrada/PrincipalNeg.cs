@@ -34,7 +34,6 @@ namespace ImportaNFEntrada
                 List<string> listaChaveNFe = nfEntradaNeg.
                     GetListaNotasEntradaEmpresaNovo(agendamento.CodigoEmpresa, agendamento.CodigoEstab);
 
-                Console.WriteLine(listaNotasXML.Count);
                 foreach (string nota in listaChaveNFe)
                 {
                     if (listaNotasXML.ContainsKey(nota))
@@ -133,6 +132,27 @@ namespace ImportaNFEntrada
                                     .CarregarCTEs(GetPathEmpresaCTE(agendamento, data),
                                         agendamento.CodigoEmpresa, agendamento.CodigoEstab);
 
+                List<string> listaChaveNFe = nfEntradaNeg.
+                    GetListaNotasEntradaEmpresaNovoCTE(agendamento.CodigoEmpresa, agendamento.CodigoEstab);
+
+                foreach (string nota in listaChaveNFe)
+                {
+                    if (listaNotasXML.ContainsKey(nota))
+                    {
+                        listaNotasXML.Remove(nota);
+                    }
+                }
+
+                // Insere as notas no banco
+
+                if (listaNotasXML.Count > 0)
+                {
+                    nfEntradaNeg.InserirNotas(listaNotasXML);
+                }
+                else
+                {
+                    Console.WriteLine("SEM NOTAS A INSERIR!");
+                }
                 return true;
             }
             catch (Exception ex)

@@ -31,6 +31,10 @@ namespace ImportaNFEntrada.Utils
         {
             try
             {
+                if (!destino.Exists)
+                {
+                    Directory.CreateDirectory(destino.ToString());
+                }
                 FileInfo destinoArquivo = new FileInfo(Path.Combine(destino.FullName, origem.Name));
                 File.Copy(origem.FullName, destinoArquivo.FullName);
                 origem.Delete();

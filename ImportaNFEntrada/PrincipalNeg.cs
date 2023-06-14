@@ -130,15 +130,16 @@ namespace ImportaNFEntrada
                 zipUtilz.DescompactarArquivosEmpresa(GetPathEmpresaCTE(agendamento, data));
 
                 Dictionary<string, NFEntrada> listaNotasXML = importaNFEntradaNeg
-                                    .CarregarCTEs(GetPathEmpresa(agendamento, data),
+                                    .CarregarCTEs(GetPathEmpresaCTE(agendamento, data),
                                         agendamento.CodigoEmpresa, agendamento.CodigoEstab);
 
                 return true;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Console.WriteLine(ex);
             }
             return false;
+        }
     }
 }

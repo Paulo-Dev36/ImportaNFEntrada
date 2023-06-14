@@ -140,7 +140,6 @@ namespace ImportaNFEntrada
 
         public Dictionary<string, NFEntrada> CarregarCTEs(string path, int codigoempresa, int codigoestab)
         {
-            Console.WriteLine("\n");
             Dictionary<string, NFEntrada> lista = new Dictionary<string, NFEntrada>();
             List<FileInfo> listaXML = new();
 

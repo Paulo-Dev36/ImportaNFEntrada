@@ -6,5 +6,6 @@ public class Principal
     {
         PrincipalControlador principalControlador = new PrincipalControlador();
         principalControlador.Processar();
+        Environment.Exit(0);
     }
 }
